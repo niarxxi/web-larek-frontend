@@ -11,7 +11,7 @@
 - src/pages/index.html — HTML-файл главной страницы
 - src/types/index.ts — файл с типами
 - src/index.ts — точка входа приложения
-- src/styles/styles.scss — корневой файл стилей
+- src/sсss/styles.scss — корневой файл стилей
 - src/utils/constants.ts — файл с константами
 - src/utils/utils.ts — файл с утилитами
 
@@ -49,7 +49,7 @@ yarn build
 ## Описание архитектуры
 
 ### Базовые классы
-
+```
 1. EventEmitter
    - Назначение: Обеспечивает работу с событиями
    - Конструктор: Не принимает параметров
@@ -72,8 +72,10 @@ yarn build
    - Методы:
      - get(uri: string): Promise<object> - выполнение GET-запроса
      - post(uri: string, data: object, method: string = 'POST'): Promise<object> - выполнение POST-запроса
+```
 
 ### СЛОЙ МОДЕЛИ
+```
 1. Model<T>: Абстрактный класс для моделей данных. Обеспечивает работу с данными и их валидацию.
 
 2. AppState
@@ -103,9 +105,9 @@ yarn build
      - validateOrder(): boolean - валидация форм для заказов
      - refreshOrder(): boolean - очистка order после покупки товаров
      - resetSelected(): void - обновление поля selected во всех товарах после совершения покупки
-
+```
 ### СЛОЙ ПРЕДСТАВЛЕНИЯ
-
+```
 1. Component<T>: Абстрактный класс для всех компонентов. Содержит методы для рендеринга и обновления состояния компонента.
 
 2. Page
@@ -153,24 +155,54 @@ yarn build
    - Методы:
       - disableButton(): void - блокирует кнопку оформления
       - refreshIndices(): void - обновление индексов при удалении товара из корзины
-     
-
+    
 5. Order
    - Назначение: Отображает форму заказа
    - Конструктор: constructor(protected blockName: string, container: HTMLElement, protected events: IEvents)
    - Поля:
       - _card: HTMLButtonElement - ссылка на кнопку выбора оплаты картой
-      - _cash: HTMLButtonElement - ссылка на кнопку выбора оплаты наличными 
+      - _cash: HTMLButtonElement - ссылка на кнопку выбора оплаты наличными
+      - _address: HTMLInputElement - поле ввода адреса
+      - _email: HTMLInputElement - поле ввода email
+      - _phone: HTMLInputElement - поле ввода телефона
    - Методы:
      - disableButtons(): void - отключение подсвечивания кнопки
+     - validateForm(): boolean - проверка валидности всех полей формы
+     - setErrorMessage(field: string, message: string): void - установка сообщения об ошибке для конкретного поля
 
+6. Modal
+   - Назначение: Базовый класс для модальных окон
+   - Конструктор: constructor(container: HTMLElement)
+   - Методы:
+     - open(): void - открытие модального окна
+     - close(): void - закрытие модального окна
+     - setContent(content: HTMLElement): void - отрисовка содержимого модального окна
+
+7. SuccessModal extends Modal
+   - Назначение: Отображает модальное окно успешного оформления заказа
+   - Дополнительные поля:
+      - _total: HTMLElement - элемент для отображения итоговой суммы заказа
+   - Методы:
+     - setTotal(value: number): void - установка итоговой суммы заказа
+
+8. ProductDetails extends Modal
+   - Назначение: Отображает модальное окно с деталями продукта
+   - Дополнительные поля:
+      - _title: HTMLElement - элемент для отображения названия продукта
+      - _image: HTMLImageElement - элемент для отображения изображения продукта
+      - _description: HTMLElement - элемент для отображения описания продукта
+      - _price: HTMLElement - элемент для отображения цены продукта
+   - Методы:
+     - setProduct(product: IProduct): void - установка данных о продукте
+
+```
 
 ### СЛОЙ ПРЕЗЕНТЕРА
 
 Презентер не выделен в отдельный класс, а реализован в основном скрипте приложения. Он отвечает за обработку событий, координацию взаимодействия между моделью и представлением.
 
 ### Описание событий
-
+```
 1. 'catalog:updated': Обновление списка товаров на странице.
 2. 'card:details': Открытие модального окна с детальной информацией о товаре.
 3. 'basket:add': Добавление товара в корзину и обновление UI.
@@ -184,3 +216,4 @@ yarn build
 11. 'contacts:validate': Обновление ошибок валидации формы контактов.
 12. 'payment:success': Отображение сообщения об успешной оплате.
 13. 'modal:close': Закрытие любого открытого модального окна.
+```

@@ -61,7 +61,7 @@ export interface IBasket {
 
 export interface IOrder {
   items: string[];
-  payment: string;
+  payment: PaymentType;
   total: number;
   address: string;
   email: string;
@@ -69,8 +69,22 @@ export interface IOrder {
 }
 
 export interface IOrderForm {
-  payment: string;
+  payment: PaymentType;
   address: string;
   email: string;
   phone: string;
+}
+
+export interface IModal {
+  open(): void;
+  close(): void;
+  setContent(content: HTMLElement): void;
+}
+
+export interface ISuccessModal extends IModal {
+  setTotal(value: number): void;
+}
+
+export interface IProductDetails extends IModal {
+  setProduct(product: IProduct): void;
 }
