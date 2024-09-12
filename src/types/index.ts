@@ -1,12 +1,3 @@
-export type PaymentType = 'cash' | 'card';
-
-export type CategoryType =
-  | 'другое'
-  | 'софт-скил'
-  | 'дополнительное'
-  | 'кнопка'
-  | 'хард-скил';
-
 export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
 
 export interface IProduct {
@@ -14,9 +5,13 @@ export interface IProduct {
   description: string;
   image: string;
   title: string;
-  category: CategoryType;
+  category: string;
   price: number | null;
   selected: boolean;
+}
+
+export interface ApiResponse {
+  items: IProduct[];
 }
 
 export interface IAppState {
@@ -38,30 +33,9 @@ export interface IAppState {
   resetSelected(): void;
 }
 
-export interface IPage {
-  counter: number;
-  catalog: HTMLElement[];
-  locked: boolean;
-}
-
-export interface ICard {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  price: number | null;
-  selected: boolean;
-}
-
-export interface IBasket {
-  list: HTMLElement[];
-  price: number;
-}
-
 export interface IOrder {
   items: string[];
-  payment: PaymentType;
+  payment: string;
   total: number;
   address: string;
   email: string;
@@ -69,22 +43,8 @@ export interface IOrder {
 }
 
 export interface IOrderForm {
-  payment: PaymentType;
+  payment: string;
   address: string;
   email: string;
   phone: string;
-}
-
-export interface IModal {
-  open(): void;
-  close(): void;
-  setContent(content: HTMLElement): void;
-}
-
-export interface ISuccessModal extends IModal {
-  setTotal(value: number): void;
-}
-
-export interface IProductDetails extends IModal {
-  setProduct(product: IProduct): void;
 }

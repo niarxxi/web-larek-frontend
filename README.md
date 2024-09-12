@@ -138,11 +138,17 @@ yarn build
      - set title(value: string) - устанавливает заголовок карточки
      - get title() - получает заголовок карточки
      - set image(value: string) - устанавливает изображение карточки
-     - set selected(value: boolean) - определяет выбран товар или не выбран
      - set price(value: number | null) - устанавливает цену карточки
-     - set category(value: CategoryType) - устанавливает категорию карточки
+     - set category(value: string) - устанавливает категорию карточки
+     - get category(): string - получает категорию карточки.
 
-4. Basket
+4. ProductDetails extends Card
+   - Дополнительный метод:
+     - setButtonText(text: string): void - установка текста кнопки
+   - Сеттер: 
+      - set description(value: string) - установка описания продукта
+
+5. Basket
    - Назначение: Отображает корзину
    - Конструктор: constructor(protected blockName: string, container: HTMLElement, protected events: IEvents)
    - Поля:
@@ -156,44 +162,48 @@ yarn build
       - disableButton(): void - блокирует кнопку оформления
       - refreshIndices(): void - обновление индексов при удалении товара из корзины
     
-5. Order
+6. Order
    - Назначение: Отображает форму заказа
    - Конструктор: constructor(protected blockName: string, container: HTMLElement, protected events: IEvents)
    - Поля:
       - _card: HTMLButtonElement - ссылка на кнопку выбора оплаты картой
       - _cash: HTMLButtonElement - ссылка на кнопку выбора оплаты наличными
       - _address: HTMLInputElement - поле ввода адреса
-      - _email: HTMLInputElement - поле ввода email
-      - _phone: HTMLInputElement - поле ввода телефона
    - Методы:
      - disableButtons(): void - отключение подсвечивания кнопки
-     - validateForm(): boolean - проверка валидности всех полей формы
-     - setErrorMessage(field: string, message: string): void - установка сообщения об ошибке для конкретного поля
+     - clearForm() - сбрасывает все поля формы и состояние кнопок.
 
-6. Modal
+7. Contacts
+   - Назначение: Управляет формой контактных данных
+   - Поля:
+      - _email: HTMLInputElement - поле ввода email
+      - _phone: HTMLInputElement - поле ввода телефона
+   - Сеттеры:
+      - set phone(value: string) - установка номера телефона
+      - set email(value: string) - установка email адреса
+   - Методы:
+      - clearForm() - сбрасывает все поля формы и состояние кнопок.
+    
+8. Modal
    - Назначение: Базовый класс для модальных окон
-   - Конструктор: constructor(container: HTMLElement)
+   - Конструктор: constructor(container: HTMLElement, protected events: IEvents)
+   - Поля:
+      - _closeButton: HTMLButtonElement - кнопка закрытия модального окна
+      - _content:HTMLElement - контейнер для содержимого модального окна
+   - Сеттеры:
+      - set content(content: HTMLElement): void - отрисовка содержимого модального окна
    - Методы:
      - open(): void - открытие модального окна
      - close(): void - закрытие модального окна
-     - setContent(content: HTMLElement): void - отрисовка содержимого модального окна
+     - render(data.IModalData):HTMLElement - рендеринг модального окна
 
-7. SuccessModal extends Modal
+9. SuccessModal 
    - Назначение: Отображает модальное окно успешного оформления заказа
-   - Дополнительные поля:
+   - Поля:
+      - _button: HTMLButtonElement - кнопка закрытия модального окна
       - _total: HTMLElement - элемент для отображения итоговой суммы заказа
    - Методы:
      - setTotal(value: number): void - установка итоговой суммы заказа
-
-8. ProductDetails extends Modal
-   - Назначение: Отображает модальное окно с деталями продукта
-   - Дополнительные поля:
-      - _title: HTMLElement - элемент для отображения названия продукта
-      - _image: HTMLImageElement - элемент для отображения изображения продукта
-      - _description: HTMLElement - элемент для отображения описания продукта
-      - _price: HTMLElement - элемент для отображения цены продукта
-   - Методы:
-     - setProduct(product: IProduct): void - установка данных о продукте
 
 ```
 
