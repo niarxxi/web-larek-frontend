@@ -99,7 +99,7 @@ yarn build
      - setOrderField(field: keyof IOrderForm, value: string): void - установка информации о заказе
      - clearBasket(): void - очистка корзины
      - getBasketAmount(): number - получения количества товаров в корзине
-     - setItems(): void - добавление ID товаров
+     - updateOrderItemsFromBasket(): void - добавляем идентификаторы товаров из корзины в заказ
      - getTotalBasketPrice(): number - получения суммы цены всех товаров в корзине
      - validateContacts(): boolean - валидация форм для контактов
      - validateOrder(): boolean - валидация форм для заказов
@@ -171,18 +171,22 @@ yarn build
       - _address: HTMLInputElement - поле ввода адреса
    - Методы:
      - disableButtons(): void - отключение подсвечивания кнопки
-     - clearForm() - сбрасывает все поля формы и состояние кнопок.
+     - clearForm() - сбрасывает все поля формы и состояние кнопок
 
 7. Contacts
    - Назначение: Управляет формой контактных данных
    - Поля:
       - _email: HTMLInputElement - поле ввода email
       - _phone: HTMLInputElement - поле ввода телефона
+      - _errors: HTMLElement - ссылка на DOM-элемент для отображения ошибок
    - Сеттеры:
       - set phone(value: string) - установка номера телефона
       - set email(value: string) - установка email адреса
+      - set valid(value: boolean) - установка валидности формы
+      - set errors(value: string) - установка текста ошибок
    - Методы:
-      - clearForm() - сбрасывает все поля формы и состояние кнопок.
+      - clearForm() - сбрасывает все поля формы и состояние кнопок
+      - toggleButton(isValid: boolean): void - включение/выключение кнопки отправки формы
     
 8. Modal
    - Назначение: Базовый класс для модальных окон

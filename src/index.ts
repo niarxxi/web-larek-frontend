@@ -81,11 +81,10 @@ events.on('card:details', (item: IProduct) => {
 		onClick: () => {
 			if (item.selected) {
 				events.emit('basket:remove', item);
-				modal.close();
 			} else {
 				events.emit('basket:add', item);
-				modal.close();
 			}
+			modal.close();
 		},
 	});
 	product.setButtonText(item.selected ? 'Убрать из корзины' : 'Купить');
@@ -105,8 +104,7 @@ events.on('card:details', (item: IProduct) => {
 events.on('basket:add', (item: IProduct) => {
 	item.selected = true;
 	appData.addToBasket(item);
-	page.counter = appData.getBasketAmount();
-	events.emit('product:details', item);
+	page.counter = appData.getBasketAmount();	
 });
 
 
@@ -162,12 +160,11 @@ events.on('order:validate', (errors: Partial<IOrderForm>) => {
 });
 
 
-events.on('contacts:validate', (errors: Partial<IOrderForm>) => {
-	const { email, phone } = errors;
-	contacts.valid = !email && !phone;
-	contacts.errors = Object.values({ phone, email })
-		.filter((i) => !!i)
-		.join('; ');
+events.on('contacts:validate', ({ errors, valid }: { errors: Partial<IOrderForm>, valid: boolean }) => {
+  const errorMessages = Object.values(errors).filter(Boolean);
+  contacts.valid = valid;
+  contacts.errors = errorMessages.join('; ');
+  contacts.toggleButton(valid);
 });
 
 
@@ -181,7 +178,7 @@ events.on(
 
 events.on('order:submit', () => {
 	appData.order.total = appData.getTotalBasketPrice();
-	appData.setItems();
+	appData.updateOrderItemsFromBasket();
 	modal.render({
 		content: contacts.render({
 			valid: false,

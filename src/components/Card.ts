@@ -121,5 +121,5 @@ export class ProductDetails extends Card<IProductDetails> {
 		if (this._button) {
 			this._button.textContent = text;
 		}
-	}	
+	}		
 }
