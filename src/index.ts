@@ -141,6 +141,7 @@ events.on('basket:remove', (item: IProduct) => {
 
 
 events.on('order:start', () => {
+	order.clearForm();
 	modal.render({
 		content: order.render({
 			address: '',
@@ -179,6 +180,7 @@ events.on(
 events.on('order:submit', () => {
 	appData.order.total = appData.getTotalBasketPrice();
 	appData.updateOrderItemsFromBasket();
+	contacts.clearForm();
 	modal.render({
 		content: contacts.render({
 			valid: false,
@@ -214,7 +216,4 @@ events.on('payment:success', (res: ApiListResponse<string>) => {
 
 events.on('modal:close', () => {
 	page.locked = false;
-	appData.refreshOrder();
-	order.clearForm();
-	contacts.clearForm();
 });
